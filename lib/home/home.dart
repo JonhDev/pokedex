@@ -1,43 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pokedex/home/state/home_state_provider.dart';
 import 'package:pokedex/theme/pokedex_colors.dart';
 import 'package:pokedex/widgets/poke_app_bar.dart';
+import 'package:pokedex/widgets/poke_card.dart';
 
 class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: const PokeAppBar('Pokedex'),
       body: Container(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: List.generate(3, (index) {
-            return Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                children: const [
-                  Flexible(
-                    child: Image(
-                        image: NetworkImage(
-                            'https://www.pngmart.com/files/2/Pikachu-Transparent-Background.png')),
-                    flex: 1,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
-                    child: Text('Pikachu',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                  )
-                ],
-              ),
-            );
-          }),
-        ),
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: const PokemonList(),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: PokedexColors.primary,
@@ -45,6 +23,36 @@ class HomePage extends HookWidget {
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    ));
+    );
+  }
+}
+
+class PokemonList extends HookConsumerWidget {
+  const PokemonList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeStateProvider);
+    if (homeState.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: PokedexColors.secondary,
+        ),
+      );
+    } else {
+      return GridView.builder(
+          padding: const EdgeInsets.only(top: 16, bottom: 16),
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 220,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 10,
+              crossAxisCount: 2),
+          itemCount: homeState.pokemon.length,
+          itemBuilder: (BuildContext context, int index) {
+            return PokeCard(homeState.pokemon[index]);
+          });
+    }
   }
 }

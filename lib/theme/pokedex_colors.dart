@@ -4,6 +4,7 @@ class PokedexColors {
   PokedexColors._();
 
   static const Color primary = Color(0xFFFF0000);
+  static const Color secondary = Color(0xFFCC0000);
   static const Color primaryBackground = Color(0xFFFFFFFF);
   static const Color primaryText = Color(0xFF000000);
 }

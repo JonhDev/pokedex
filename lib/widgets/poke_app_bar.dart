@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../theme/pokedex_colors.dart';
 
 class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,10 +12,13 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double _defaultSize = 90;
+    const double _defaultSize = 100;
 
     return AppBar(
-        title: const Text('Pokedex'),
+        title: const Text(
+          'Pokedex',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
         centerTitle: false,
         backgroundColor: PokedexColors.primary,
         flexibleSpace: Container(
@@ -26,8 +28,8 @@ class PokeAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: _defaultSize,
             height: _defaultSize,
             fit: BoxFit.fitWidth,
-            alignment: Alignment.center,
-            color: Colors.white,
+            alignment: Alignment.topCenter,
+            color: PokedexColors.secondary,
           ),
         ));
   }
