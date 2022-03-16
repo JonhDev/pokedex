@@ -24,7 +24,7 @@ class HomePage extends HookWidget {
         child: const Image(image: AssetImage('assets/pokeball_color.png')),
         onPressed: () {},
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
