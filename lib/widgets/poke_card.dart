@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/common/models/pokemon.dart';
+import 'package:pokedex/common/providers/future_providers.dart';
 import 'package:pokedex/core/environment_config.dart';
 import 'package:pokedex/utils/string_extensions.dart';
 
-class PokeCard extends StatelessWidget {
+class PokeCard extends HookConsumerWidget {
   const PokeCard(this.pokemon, {Key? key}) : super(key: key);
 
   final Pokemon pokemon;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imageUrl = '${EnvironmentConfig.imageBaseUrl}${_getPokemonId()}.png';
+    final colorGenerator = ref.watch(imagePrimaryColorProvider(imageUrl));
     return Card(
-      elevation: 5,
+      elevation: 3,
+      color: colorGenerator.maybeWhen(
+          orElse: () => Colors.white, data: (color) => color),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Image(
-                  image: NetworkImage(
-                      '${EnvironmentConfig.imageBaseUrl}${_getPokemonId()}.png')),
+              child: Image(image: NetworkImage(imageUrl)),
             ),
             flex: 1,
           ),

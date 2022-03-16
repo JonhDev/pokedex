@@ -2,7 +2,7 @@ import 'package:pokedex/common/datasources/pokemon_network_datasource.dart';
 import 'package:pokedex/common/models/pokemon.dart';
 
 abstract class PokemonRepository {
-  Future<List<Pokemon>> fetchPokemon();
+  Future<List<Pokemon>> fetchPokemon(int offset);
 }
 
 class PokemonRepositoryImpl extends PokemonRepository {
@@ -12,8 +12,8 @@ class PokemonRepositoryImpl extends PokemonRepository {
   final PokemonNetworkDataSource _networkDataSource;
 
   @override
-  Future<List<Pokemon>> fetchPokemon() async {
-    final response = await _networkDataSource.fetchPokemons();
+  Future<List<Pokemon>> fetchPokemon(int offset) async {
+    final response = await _networkDataSource.fetchPokemons(offset);
     return response.results;
   }
 }

@@ -7,5 +7,6 @@ part 'home_state.freezed.dart';
 class HomeState with _$HomeState {
   const factory HomeState(
       {@Default(true) bool isLoading,
-      @Default(<Pokemon>[]) List<Pokemon> pokemon}) = _HomeState;
+      @Default(<Pokemon>[]) List<Pokemon> pokemon,
+      @Default(false) bool isLoadingNextPage}) = _HomeState;
 }

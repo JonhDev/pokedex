@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pokedex/common/providers/loggers_providers.dart';
 import 'package:pokedex/home/state/home_state_provider.dart';
 import 'package:pokedex/theme/pokedex_colors.dart';
 import 'package:pokedex/widgets/poke_app_bar.dart';
@@ -32,7 +33,24 @@ class PokemonList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = useScrollController();
     final homeState = ref.watch(homeStateProvider);
+    final homeStateNotifier = ref.watch(homeStateProvider.notifier);
+    final logger = ref.watch(loggerProvider);
+
+    useEffect(() {
+      listener() {
+        if (controller.offset >= controller.position.maxScrollExtent &&
+            !controller.position.outOfRange) {
+          logger.i('He llegado al final, cargando siguiente pagina...');
+          homeStateNotifier.loadNextPage();
+        }
+      }
+
+      controller.addListener(listener);
+      return () => controller.removeListener(listener);
+    }, [controller]);
+
     if (homeState.isLoading) {
       return const Center(
         child: CircularProgressIndicator(
@@ -44,6 +62,7 @@ class PokemonList extends HookConsumerWidget {
           padding: const EdgeInsets.only(top: 16, bottom: 16),
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
+          controller: controller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisExtent: 220,
               crossAxisSpacing: 16,
