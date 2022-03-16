@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jbravo.pokedex">
+
+<uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="Pokedex"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_pokedex_launcher">
+    
         <activity
             android:name="com.jbravo.pokedex.MainActivity"
             android:exported="true"

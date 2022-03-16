@@ -55,21 +55,36 @@ class PokemonList extends HookConsumerWidget {
     if (homeState.isLoading) {
       return const LoadingShimmerGrid();
     } else {
-      return GridView.builder(
-          padding: const EdgeInsets.only(top: 16, bottom: 16),
+      return CustomScrollView(
+          slivers: [
+            SliverPadding(
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return PokeCard(homeState.pokemon[index]);
+                    }, childCount: homeState.pokemon.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 220,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 2))),
+            SliverToBoxAdapter(
+                child: _buildLoadingWidget(homeState.isLoadingNextPage))
+          ],
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
-          controller: controller,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 220,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 10,
-              crossAxisCount: 2),
-          itemCount: homeState.pokemon.length,
-          itemBuilder: (BuildContext context, int index) {
-            return PokeCard(homeState.pokemon[index]);
-          });
+          controller: controller);
     }
+  }
+
+  Widget? _buildLoadingWidget(bool show) {
+    if (show) {
+      return const Center(
+        child: CircularProgressIndicator(color: PokedexColors.primary),
+      );
+    }
+    return null;
   }
 }
 
