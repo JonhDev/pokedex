@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pokedex/common/models/pokemon.dart';
 import 'package:pokedex/common/providers/future_providers.dart';
 import 'package:pokedex/core/environment_config.dart';
@@ -24,7 +25,15 @@ class PokeCard extends HookConsumerWidget {
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Image(image: NetworkImage(imageUrl)),
+              child: Image.network(imageUrl, fit: BoxFit.fill,
+                  loadingBuilder: ((context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                    child: LottieBuilder.asset(
+                        'assets/lotties/poke-animation.json',
+                        height: 70,
+                        width: 70));
+              })),
             ),
             flex: 1,
           ),

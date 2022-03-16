@@ -6,6 +6,7 @@ import 'package:pokedex/home/state/home_state_provider.dart';
 import 'package:pokedex/theme/pokedex_colors.dart';
 import 'package:pokedex/widgets/poke_app_bar.dart';
 import 'package:pokedex/widgets/poke_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -52,11 +53,7 @@ class PokemonList extends HookConsumerWidget {
     }, [controller]);
 
     if (homeState.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: PokedexColors.secondary,
-        ),
-      );
+      return const LoadingShimmerGrid();
     } else {
       return GridView.builder(
           padding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -73,5 +70,32 @@ class PokemonList extends HookConsumerWidget {
             return PokeCard(homeState.pokemon[index]);
           });
     }
+  }
+}
+
+class LoadingShimmerGrid extends StatelessWidget {
+  const LoadingShimmerGrid({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+        padding: const EdgeInsets.only(top: 16, bottom: 16),
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisExtent: 220,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2),
+        itemCount: 6,
+        itemBuilder: (BuildContext context, int index) {
+          return Shimmer.fromColors(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              baseColor: Colors.grey[200]!,
+              highlightColor: Colors.grey[500]!);
+        });
   }
 }
