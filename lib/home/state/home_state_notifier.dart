@@ -25,4 +25,8 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
     state.pokemon.addAll(response);
     state = state.copyWith(isLoadingNextPage: false);
   }
+
+  void switchSearchBarState(bool show) {
+    state = state.copyWith(showSearchBar: show);
+  }
 }

@@ -8,5 +8,6 @@ class HomeState with _$HomeState {
   const factory HomeState(
       {@Default(true) bool isLoading,
       @Default(<Pokemon>[]) List<Pokemon> pokemon,
-      @Default(false) bool isLoadingNextPage}) = _HomeState;
+      @Default(false) bool isLoadingNextPage,
+      @Default(true) bool showSearchBar}) = _HomeState;
 }

@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/common/providers/loggers_providers.dart';
+import 'package:pokedex/home/state/home_state.dart';
 import 'package:pokedex/home/state/home_state_provider.dart';
 import 'package:pokedex/theme/pokedex_colors.dart';
 import 'package:pokedex/widgets/poke_app_bar.dart';
@@ -46,19 +50,68 @@ class PokemonList extends HookConsumerWidget {
           logger.i('He llegado al final, cargando siguiente pagina...');
           homeStateNotifier.loadNextPage();
         }
+        if (controller.position.userScrollDirection ==
+            ScrollDirection.forward) {
+          homeStateNotifier.switchSearchBarState(true);
+        }
+        if (controller.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+          homeStateNotifier.switchSearchBarState(false);
+        }
       }
 
       controller.addListener(listener);
       return () => controller.removeListener(listener);
     }, [controller]);
 
+    return Column(children: [
+      AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        height: _getSearchBarSize(homeState.showSearchBar),
+        child: Card(
+          margin: const EdgeInsets.only(top: 16, bottom: 8),
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: PokedexColors.grayOnWhite,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(children: [
+              Icon(Icons.search,
+                  color: homeState.showSearchBar
+                      ? PokedexColors.grayTextOnWhite
+                      : Colors.white),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Buscar por nombre',
+                  style: TextStyle(color: PokedexColors.grayTextOnWhite),
+                ),
+              )
+            ]),
+          ),
+        ),
+      ),
+      Expanded(child: _buildContent(homeState, controller))
+    ]);
+  }
+
+  double _getSearchBarSize(bool show) {
+    if (show) {
+      return 80;
+    } else {
+      return 0;
+    }
+  }
+
+  Widget _buildContent(HomeState homeState, ScrollController controller) {
     if (homeState.isLoading) {
       return const LoadingShimmerGrid();
     } else {
       return CustomScrollView(
           slivers: [
             SliverPadding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                padding: const EdgeInsets.only(bottom: 8),
                 sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return PokeCard(homeState.pokemon[index]);

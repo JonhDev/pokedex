@@ -20,11 +20,13 @@ class _$HomeStateTearOff {
   _HomeState call(
       {bool isLoading = true,
       List<Pokemon> pokemon = const <Pokemon>[],
-      bool isLoadingNextPage = false}) {
+      bool isLoadingNextPage = false,
+      bool showSearchBar = true}) {
     return _HomeState(
       isLoading: isLoading,
       pokemon: pokemon,
       isLoadingNextPage: isLoadingNextPage,
+      showSearchBar: showSearchBar,
     );
   }
 }
@@ -37,6 +39,7 @@ mixin _$HomeState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<Pokemon> get pokemon => throw _privateConstructorUsedError;
   bool get isLoadingNextPage => throw _privateConstructorUsedError;
+  bool get showSearchBar => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -47,7 +50,11 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({bool isLoading, List<Pokemon> pokemon, bool isLoadingNextPage});
+  $Res call(
+      {bool isLoading,
+      List<Pokemon> pokemon,
+      bool isLoadingNextPage,
+      bool showSearchBar});
 }
 
 /// @nodoc
@@ -63,6 +70,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
     Object? isLoading = freezed,
     Object? pokemon = freezed,
     Object? isLoadingNextPage = freezed,
+    Object? showSearchBar = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
@@ -77,6 +85,10 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
           ? _value.isLoadingNextPage
           : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
               as bool,
+      showSearchBar: showSearchBar == freezed
+          ? _value.showSearchBar
+          : showSearchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -87,7 +99,11 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _HomeState value, $Res Function(_HomeState) then) =
       __$HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool isLoading, List<Pokemon> pokemon, bool isLoadingNextPage});
+  $Res call(
+      {bool isLoading,
+      List<Pokemon> pokemon,
+      bool isLoadingNextPage,
+      bool showSearchBar});
 }
 
 /// @nodoc
@@ -104,6 +120,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? pokemon = freezed,
     Object? isLoadingNextPage = freezed,
+    Object? showSearchBar = freezed,
   }) {
     return _then(_HomeState(
       isLoading: isLoading == freezed
@@ -118,6 +135,10 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.isLoadingNextPage
           : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
               as bool,
+      showSearchBar: showSearchBar == freezed
+          ? _value.showSearchBar
+          : showSearchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -128,7 +149,8 @@ class _$_HomeState implements _HomeState {
   const _$_HomeState(
       {this.isLoading = true,
       this.pokemon = const <Pokemon>[],
-      this.isLoadingNextPage = false});
+      this.isLoadingNextPage = false,
+      this.showSearchBar = true});
 
   @JsonKey()
   @override
@@ -139,10 +161,13 @@ class _$_HomeState implements _HomeState {
   @JsonKey()
   @override
   final bool isLoadingNextPage;
+  @JsonKey()
+  @override
+  final bool showSearchBar;
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, pokemon: $pokemon, isLoadingNextPage: $isLoadingNextPage)';
+    return 'HomeState(isLoading: $isLoading, pokemon: $pokemon, isLoadingNextPage: $isLoadingNextPage, showSearchBar: $showSearchBar)';
   }
 
   @override
@@ -153,7 +178,9 @@ class _$_HomeState implements _HomeState {
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.pokemon, pokemon) &&
             const DeepCollectionEquality()
-                .equals(other.isLoadingNextPage, isLoadingNextPage));
+                .equals(other.isLoadingNextPage, isLoadingNextPage) &&
+            const DeepCollectionEquality()
+                .equals(other.showSearchBar, showSearchBar));
   }
 
   @override
@@ -161,7 +188,8 @@ class _$_HomeState implements _HomeState {
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(pokemon),
-      const DeepCollectionEquality().hash(isLoadingNextPage));
+      const DeepCollectionEquality().hash(isLoadingNextPage),
+      const DeepCollectionEquality().hash(showSearchBar));
 
   @JsonKey(ignore: true)
   @override
@@ -173,7 +201,8 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {bool isLoading,
       List<Pokemon> pokemon,
-      bool isLoadingNextPage}) = _$_HomeState;
+      bool isLoadingNextPage,
+      bool showSearchBar}) = _$_HomeState;
 
   @override
   bool get isLoading;
@@ -181,6 +210,8 @@ abstract class _HomeState implements HomeState {
   List<Pokemon> get pokemon;
   @override
   bool get isLoadingNextPage;
+  @override
+  bool get showSearchBar;
   @override
   @JsonKey(ignore: true)
   _$HomeStateCopyWith<_HomeState> get copyWith =>
