@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pokedex/home/home.dart';
+import 'package:pokedex/routing/router.dart';
+import 'package:pokedex/routing/routes.dart';
+import 'package:pokedex/ui/flows/home/home.dart';
 
 void main() {
-  runApp(const ProviderScope(child: PokedexApp()));
+  runApp(UncontrolledProviderScope(
+      container: _initContainer(), child: const PokedexApp()));
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.light,
@@ -12,17 +17,30 @@ void main() {
       systemNavigationBarIconBrightness: Brightness.light));
 }
 
-class PokedexApp extends StatelessWidget {
+ProviderContainer _initContainer() {
+  final container = ProviderContainer(observers: [])..read(routerProvider);
+  return container;
+}
+
+class PokedexApp extends HookConsumerWidget {
   const PokedexApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
+    useEffect(() {
+      router.defineRoutes();
+      return null;
+    }, []);
+
     return MaterialApp(
       title: 'Pokedex',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      onGenerateRoute: router.generateRouter,
+      initialRoute: Routes.home,
     );
   }
 }
