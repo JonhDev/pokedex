@@ -1,16 +1,41 @@
-# pokedex
+# Pokedex
 
-A new Flutter project.
+An app that consumes a public api from [PokeApi](https://pokeapi.co/)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project was made with [Flutter](https://flutter.dev/)
 
-A few resources to get you started if this is your first Flutter project:
+## Project structure
+```
+.
+└── lib/
+    ├── common (Common datasources, models, provider, etc)/
+    │   ├── datasources
+    │   ├── models
+    │   ├── providers
+    │   └── repositories
+    ├── core (Things such as network providers and environment configurations)
+    ├── routing (App navigation)
+    ├── ui (Pages and flows for the app)/
+    │   ├── flows (App flows and modules)
+    │   ├── theme (Colors, themes, etc)
+    │   └── widgets (Ui componentes to be reused in the app)
+    └── utils (App utilities)
+```
+## Dependencies
+- flutter_hooks
+- dio
+- freezed_annotation
+- json_annotation
+- hooks_riverpod
+- logger
+- image
+- shimmer
+- lottie
+- fluro
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Dev dependencies
+- freezed
+- build_runner
+- json_serializable
