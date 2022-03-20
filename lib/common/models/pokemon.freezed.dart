@@ -21,10 +21,11 @@ Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
 class _$PokemonTearOff {
   const _$PokemonTearOff();
 
-  _Pokemon call({required String name, required String url}) {
+  _Pokemon call({required String name, required String? url, int id = 0}) {
     return _Pokemon(
       name: name,
       url: url,
+      id: id,
     );
   }
 
@@ -39,7 +40,8 @@ const $Pokemon = _$PokemonTearOff();
 /// @nodoc
 mixin _$Pokemon {
   String get name => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +52,7 @@ mixin _$Pokemon {
 abstract class $PokemonCopyWith<$Res> {
   factory $PokemonCopyWith(Pokemon value, $Res Function(Pokemon) then) =
       _$PokemonCopyWithImpl<$Res>;
-  $Res call({String name, String url});
+  $Res call({String name, String? url, int id});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$PokemonCopyWithImpl<$Res> implements $PokemonCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -74,7 +77,11 @@ class _$PokemonCopyWithImpl<$Res> implements $PokemonCopyWith<$Res> {
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -84,7 +91,7 @@ abstract class _$PokemonCopyWith<$Res> implements $PokemonCopyWith<$Res> {
   factory _$PokemonCopyWith(_Pokemon value, $Res Function(_Pokemon) then) =
       __$PokemonCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String url});
+  $Res call({String name, String? url, int id});
 }
 
 /// @nodoc
@@ -100,6 +107,7 @@ class __$PokemonCopyWithImpl<$Res> extends _$PokemonCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? id = freezed,
   }) {
     return _then(_Pokemon(
       name: name == freezed
@@ -109,7 +117,11 @@ class __$PokemonCopyWithImpl<$Res> extends _$PokemonCopyWithImpl<$Res>
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -117,7 +129,7 @@ class __$PokemonCopyWithImpl<$Res> extends _$PokemonCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Pokemon implements _Pokemon {
-  const _$_Pokemon({required this.name, required this.url});
+  const _$_Pokemon({required this.name, required this.url, this.id = 0});
 
   factory _$_Pokemon.fromJson(Map<String, dynamic> json) =>
       _$$_PokemonFromJson(json);
@@ -125,11 +137,14 @@ class _$_Pokemon implements _Pokemon {
   @override
   final String name;
   @override
-  final String url;
+  final String? url;
+  @JsonKey()
+  @override
+  final int id;
 
   @override
   String toString() {
-    return 'Pokemon(name: $name, url: $url)';
+    return 'Pokemon(name: $name, url: $url, id: $id)';
   }
 
   @override
@@ -138,14 +153,16 @@ class _$_Pokemon implements _Pokemon {
         (other.runtimeType == runtimeType &&
             other is _Pokemon &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            const DeepCollectionEquality().equals(other.url, url) &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(url));
+      const DeepCollectionEquality().hash(url),
+      const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +176,7 @@ class _$_Pokemon implements _Pokemon {
 }
 
 abstract class _Pokemon implements Pokemon {
-  const factory _Pokemon({required String name, required String url}) =
+  const factory _Pokemon({required String name, required String? url, int id}) =
       _$_Pokemon;
 
   factory _Pokemon.fromJson(Map<String, dynamic> json) = _$_Pokemon.fromJson;
@@ -167,7 +184,9 @@ abstract class _Pokemon implements Pokemon {
   @override
   String get name;
   @override
-  String get url;
+  String? get url;
+  @override
+  int get id;
   @override
   @JsonKey(ignore: true)
   _$PokemonCopyWith<_Pokemon> get copyWith =>

@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/common/repositories/pokemon_repository.dart';
-import 'package:pokedex/home/state/home_state.dart';
+import 'home_state.dart';
 
 class HomeStateNotifier extends StateNotifier<HomeState> {
   HomeStateNotifier({required HomeState state, required this.repository})
@@ -24,5 +24,9 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
     final response = await repository.fetchPokemon(_pageOffset);
     state.pokemon.addAll(response);
     state = state.copyWith(isLoadingNextPage: false);
+  }
+
+  void switchSearchBarState(bool show) {
+    state = state.copyWith(showSearchBar: show);
   }
 }

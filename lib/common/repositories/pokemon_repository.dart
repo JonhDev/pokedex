@@ -3,6 +3,7 @@ import 'package:pokedex/common/models/pokemon.dart';
 
 abstract class PokemonRepository {
   Future<List<Pokemon>> fetchPokemon(int offset);
+  Future<Pokemon?> getPokemon(String idOrName);
 }
 
 class PokemonRepositoryImpl extends PokemonRepository {
@@ -15,5 +16,12 @@ class PokemonRepositoryImpl extends PokemonRepository {
   Future<List<Pokemon>> fetchPokemon(int offset) async {
     final response = await _networkDataSource.fetchPokemons(offset);
     return response.results;
+  }
+
+  @override
+  Future<Pokemon?> getPokemon(String idOrName) async {
+    final response =
+        await _networkDataSource.getPokemon(idOrName.toLowerCase());
+    return response;
   }
 }

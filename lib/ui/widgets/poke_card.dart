@@ -13,7 +13,8 @@ class PokeCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imageUrl = '${EnvironmentConfig.imageBaseUrl}${_getPokemonId()}.png';
+    final imageUrl =
+        '${EnvironmentConfig.imageBaseUrl}${_getPokemonId() ?? "/${pokemon.id}"}.png';
     final colorGenerator = ref.watch(imagePrimaryColorProvider(imageUrl));
     return Card(
       elevation: 3,
@@ -47,8 +48,8 @@ class PokeCard extends HookConsumerWidget {
     );
   }
 
-  String _getPokemonId() {
+  String? _getPokemonId() {
     final regex = RegExp(r'\/\d+');
-    return regex.firstMatch(pokemon.url)?.group(0) ?? "";
+    return regex.firstMatch(pokemon.url ?? "")?.group(0);
   }
 }
